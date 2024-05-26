@@ -22,6 +22,7 @@ describe("Unit test product customer use case", () => {
         const output = await productCreateUseCase.execute(input);
 
         expect(output).toEqual({
+            id: expect.any(String),
             name: input.name,
             price: input.price
         })
