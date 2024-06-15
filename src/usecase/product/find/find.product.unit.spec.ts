@@ -5,12 +5,12 @@ const product = new Product("123", "Xpto", 25.32);
 
 const MockRepository = () => {
     return {
-      find: jest.fn().mockReturnValue(Promise.resolve(product)),
-      findAll: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
+        find: jest.fn().mockReturnValue(Promise.resolve(product)),
+        findAll: jest.fn(),
+        create: jest.fn(),
+        update: jest.fn(),
     };
-  };
+};
 
 describe("Unit test find product use case", () => {
     it("should find a customer", async () => {
@@ -31,7 +31,7 @@ describe("Unit test find product use case", () => {
 
         expect(result).toEqual(output);
     });
-    
+
     it("should not find a product", async () => {
         const productRepository = MockRepository();
         productRepository.find.mockImplementation(() => {

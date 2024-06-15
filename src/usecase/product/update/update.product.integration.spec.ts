@@ -1,10 +1,10 @@
 import { Sequelize } from "sequelize-typescript";
-import ProductModel from "../../../infrastructure/product/repository/sequelize/product.model";
-import ProductRepository from "../../../infrastructure/product/repository/sequelize/product.repository";
-import FindProductUseCase from "./find.product.usecase";
 import Product from "../../../domain/product/entity/product";
+import ProductModel from "../../../infrastructure/product/repository/sequelize/product.model";
+import UpdateProductUseCase from "./update.product.usecase";
+import ProductRepository from "../../../infrastructure/product/repository/sequelize/product.repository";
 
-describe("Integration test for find product use case", () => {
+describe("Integration test for product update use case", () => {
     let sequelize: Sequelize;
 
     beforeEach(async () => {
@@ -23,26 +23,20 @@ describe("Integration test for find product use case", () => {
         await sequelize.close();
     });
 
-    it("should find a product", async () => {
+    it("should update a product", async () => {
         const productRepository = new ProductRepository();
-        const usecase = new FindProductUseCase(productRepository);
+        const productUpdateUseCase = new UpdateProductUseCase(productRepository);
 
-        const product = new Product("123", "Xpto", 34.25);
-
-        await productRepository.create(product);
+        const product = new Product("123", "Xpto", 25.32);
 
         const input = {
-            id: "123"
+            id: product.id,
+            name: "Product Updated",
+            price: 110.67
         };
 
-        const output = {
-            id: "123",
-            name: "Xpto",
-            price: 34.25
-        };
+        const output = await productUpdateUseCase.execute(input);
 
-        const result = await usecase.execute(input);
-
-        expect(result).toEqual(output);
+        expect(output).toEqual(input);
     });
 });
